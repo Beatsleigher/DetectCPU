@@ -1,4 +1,5 @@
 ﻿Imports System.Management
+Imports System
 Public Class Form1
 #Region "Licensing"
     ' Note: This program is
@@ -16,12 +17,10 @@ Public Class Form1
     ' Of course, you may also implement these.
 #End Region
 
-#Region "Declarations"
-    Dim WithEvents Time As New Timer
-#End Region
-
 #Region "Main stuff"
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         Dim searcher As New ManagementObjectSearcher("root\CIMV2", "SELECT * FROM Win32_Processor")
         For Each queryObj As ManagementObject In searcher.Get()
             Label1.Text = "CPU name: " & queryObj("Name").ToString
@@ -72,14 +71,8 @@ Public Class Form1
             Label46.Text = "Number of cores: " & queryObj("NumberOfCores").ToString
             Label47.Text = "Max clock speed: " & queryObj("MaxClockSpeed").ToString
         Next
-        Time.Start()
     End Sub
 
-    Public Sub Time_Tick(sender As Object, e As EventArgs) Handles Time.Tick
-        ToolStripProgressBar1.Value = CInt(PerformanceCounter1.NextValue)
-        ToolStripProgressBar2.Value = CInt(PerformanceCounter2.NextValue)
-        ToolStripStatusLabel2.Text = "CPU usage: " & PerformanceCounter1.NextValue
-    End Sub
 #End Region
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -87,7 +80,4 @@ Public Class Form1
         Me.Hide()
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs)
-
-    End Sub
 End Class
